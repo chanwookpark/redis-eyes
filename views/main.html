@@ -13,7 +13,10 @@
     <title>Cache 조회</title>
 </head>
 <body ng-controller="mainController">
-<h3>Redis Cache 조회</h3>
+
+<div class="page-header">
+<h1>Redis Cache 조회</h1>
+</div>
 
 <div class="container">
 <form>
@@ -35,16 +38,29 @@
                 <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#cache-value{{key}}" ng-click="getCacheList(key)">
                     {{key}}
                 </a>
-
                 <button type="submit" name="cacheClear" ng-click="cacheClear(key)" class="btn btn-sm btn-danger">
                     캐시삭제
                 </button>
             </div>
+
             <div id="cache-value{{key}}" class="panel-collapse collapse">
                 <div class="panel-body">
-                <ul>
-                    <li ng-repeat="(cachekey, cachevalue) in caches">{{cachekey}} : {{cachevalue}}</li>
-                </ul>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td>Index</td>
+                            <td>Field-key</td>
+                            <td>Value</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="(cachekey, cachevalue) in caches">
+                            <td>{{$index+1}}</td>
+                            <td>{{cachekey}}</td>
+                            <td>{{cachevalue}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

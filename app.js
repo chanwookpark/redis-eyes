@@ -38,6 +38,11 @@ app.get('/redis/caches/:key', function (req, res) {
     redis.hget(key, res);
 });
 
+app.get('/redis/caches/:key/count', function (req, res) {
+    var key = req.params.key;
+    redis.hlen(key, res);
+});
+
 app.delete('/redis/caches/:key', function (req, res) {
     var key = req.params.key;
     redis.cacheClear(key);

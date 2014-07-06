@@ -33,3 +33,9 @@ client.keys('*', function (err, keys) {
 });
 console.log("?" + list);
 
+
+client.hlen("testcache1", function(err, res){
+    console.log(">> err: " + err);
+    console.log(">> count: " + res);
+});
+

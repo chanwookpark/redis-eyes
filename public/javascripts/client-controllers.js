@@ -8,23 +8,33 @@ var redisViewApp = angular.module('redisViewApp', []);
 function mainController($scope, $http) {
     $scope.search = function () {
         var criteria = $scope.criteria;
-        if(!criteria || 0 === criteria.length) {
+        if (!criteria || 0 === criteria.length) {
             criteria = '*';
         }
 
         $http.get('/redis/keys/?criteria=' + criteria)
             .success(function (data) {
-                $scope.keys = data;
-                console.log(">> 조회 Key 목록: " + keys);
+                $scope.hashKeys = data;
+
+                var hashCount = [];
+                data.forEach(function (v, index) {
+
+                    $http.get('/redis/caches/' + v.key + "/count")
+                        .success(function (count) {
+                            hashCount[index] = count;
+                            v.count = count;
+                            console.log(">> " + v.key + "의 카운트는 " + count);
+                        });
+                });
             })
             .error(errorSupport());
     }
 
-    $scope.getCacheList = function(key) {
+    $scope.getCacheList = function (key) {
         $http.get('/redis/caches/' + key)
             .success(function (data) {
                 $scope.caches = data;
-                console.log(">> Cache 조회 결과(key=" + key +"): " + data );
+                console.log(">> Cache 조회 결과(key=" + key + "): " + data);
             })
             .error(errorSupport());
     }
@@ -32,12 +42,12 @@ function mainController($scope, $http) {
     $scope.cacheClear = function (key) {
         $http.delete('/redis/caches/' + key)
             .success(function (data) {
-                console.log(">> Cache 삭제 결과(key: " + key+"): " + data);
+                console.log(">> Cache 삭제 결과(key: " + key + "): " + data);
             })
             .error(errorSupport());
     }
 }
 
-function errorSupport(data){
+function errorSupport(data) {
     console.log(">> Error : " + data);
 }

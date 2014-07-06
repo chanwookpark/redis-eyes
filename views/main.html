@@ -30,23 +30,23 @@
     </div>
 
     <div id="accordion" class="panel-group">
-        <div class="panel panel-default">
-        <div id="cache-key" class="panel-heading" ng-repeat="key in keys">
-            <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#cache-value" ng-click="getCacheList(key)">
+        <div class="panel panel-default" ng-repeat="key in keys">
+            <div id="cache-key" class="panel-heading">
+                <a class="panel-title" data-toggle="collapse" data-parent="#accordion" href="#cache-value{{key}}" ng-click="getCacheList(key)">
                     {{key}}
-            </a>
+                </a>
 
-            <button type="submit" name="cacheClear" ng-click="cacheClear(key)" class="btn btn-sm btn-danger">
-                캐시삭제
-            </button>
-        </div>
-        <div id="cache-value" class="panel-collapse collapse">
-            <div class="panel-body">
-            <ul>
-                <li ng-repeat="(cachekey, cachevalue) in caches">{{cachekey}} : {{cachevalue}}</li>
-            </ul>
+                <button type="submit" name="cacheClear" ng-click="cacheClear(key)" class="btn btn-sm btn-danger">
+                    캐시삭제
+                </button>
             </div>
-        </div>
+            <div id="cache-value{{key}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                <ul>
+                    <li ng-repeat="(cachekey, cachevalue) in caches">{{cachekey}} : {{cachevalue}}</li>
+                </ul>
+                </div>
+            </div>
         </div>
     </div>
 
